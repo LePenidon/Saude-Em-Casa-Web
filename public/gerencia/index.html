@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <!--Import materialize.css-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <!--Import Google Icon-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Set the tab logo (Favicon)-->
+    <link rel="shortcut icon" href="/imgs/favicon.png" />
+    <!--Import main.css-->
+    <link href="../css/main.css" rel="stylesheet">
+
+    <!--Optimize Website for Mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--Website Title-->
+    <title>RECICLE+</title>
+</head>
+
+<body class="grey lighten-4">
+    <div class="loader">
+        <div class="preloader-wrapper active">
+            <div class="spinner-layer spinner-white">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="loading">
+        <div class="card">
+            <div class="preloader-wrapper active">
+                <div class="spinner-layer">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul id="menu" class="dropdown-content">
+        <li><a id="name" class="black-text center" style="cursor: default;"></a></li>
+        <li class="divider"></li>
+        <li><a class="modal-trigger" data-target="pass-confirmation"><i class="material-icons left">vpn_key</i>ALTERAR
+                SENHA</a></li>
+    </ul>
+    <div class="navbar-fixed" style="z-index: 999">
+        <nav class="primary-color z-depth-0">
+            <div class="nav-wrapper">
+                <div class="container">
+                    <a class="brand-logo">RECICLE+</a>
+                    <ul class="right hide-on-med-and-down">
+                        <li id="profile-option">
+                            <a id="profile" class="dropdown-trigger" data-target="menu">
+                                <i class="material-icons right">person_outline</i>PERFIL
+                            </a>
+                        </li>
+                        <li>
+                            <a id="logout">
+                                <i class="material-icons right">power_settings_new</i>SAIR
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <a id="logout" class="sidenav-trigger right" onclick="logout();"><i
+                        class="material-icons">power_settings_new</i></a>
+            </div>
+        </nav>
+    </div>
+    <div class="primary-color extended"></div>
+
+    <div class="row">
+        <div class="col s12 m8 offset-m2 l8 offset-l2">
+            <div class="card" id="main">
+                <div class="card-content">
+                    <div class="row">
+                        <h4 id="adm_mainTitle" class="light center">GERENCIAR INSTITUIÇÕES</h4>
+                        <h4 id="ong_mainTitle" class="light center">GERENCIAR COLETORES</h4>
+                    </div>
+                    <table class="striped centered">
+                        <thead>
+                            <tr id="adm_titles" style="display: none;">
+                                <th class="left">NOME DA INSTITUIÇÃO</th>
+                                <th>COLETORES GERENCIADOS</th>
+                                <th>EDITAR / EXCLUIR</th>
+                            </tr>
+                            <tr id="ong_titles" style="display: none;">
+                                <th class="left">NOME DO COLETOR</th>
+                                <th>COLETAS REALIZADAS</th>
+                                <th>AVALIAÇÃO</th>
+                                <th>EDITAR / EXCLUIR</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <h6 id="adm_null" class="center" style="display: none;">NENHUMA INSTITUIÇÃO CADASTRADA</h6>
+                    <h6 id="ong_null" class="center" style="display: none;">NENHUM COLETOR CADASTRADO</h6>
+                    <div style="height: 15px;"></div>
+                    <div class="center">
+                        <button id="adm_button" data-target="adm_modal"
+                            class="modal-trigger btn waves-effect waves-light blue darken-2">
+                            Cadastrar Instituição<i class="material-icons right">add</i>
+                        </button>
+                        <button id="ong_button" data-target="ong_modal"
+                            class="modal-trigger btn waves-effect waves-light blue darken-2">
+                            Cadastrar Coletor<i class="material-icons right">add</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="adm_modal" class="modal modal-fixed-footer">
+        <form>
+            <div class="modal-content" style="margin-bottom: 10px;">
+                <h4 id="signup_text" class="center light">CADASTRAR INSTITUIÇÃO</h4>
+                <h4 id="edit_text" class="center light" style="display: none;">EDITAR DADOS</h4>
+                <div class="row" style="margin:0;">
+                    <i id="modal-close" class="material-icons modal-close btn-flat">close</i>
+                    <div class="col s12 m12 l12">
+                        <div class="input-field">
+                            <i class="material-icons prefix">business</i>
+                            <input required class="validate" type="text" name="name" placeholder="Nome">
+                        </div>
+                    </div>
+
+                    <div class="col s12 m4 l4">
+                        <div class="input-field">
+                            <i class="material-icons prefix">phone</i>
+                            <input required class="validate" type="text" name="phone" placeholder="Telefone">
+                        </div>
+                    </div>
+
+                    <div class="col s12 m8 l8">
+                        <div class="input-field">
+                            <i class="material-icons prefix">email</i>
+                            <input required class="validate" type="email" name="email" placeholder="Email">
+                        </div>
+                    </div>
+
+                    <div class="col s12 m4 l4">
+                        <div class="input-field">
+                            <i class="material-icons prefix">note</i>
+                            <input required class="validate" type="text" name="cnpj" placeholder="CNPJ">
+                        </div>
+                    </div>
+
+                    <div class="col s12 m5 l5">
+                        <div class="input-field">
+                            <i class="material-icons prefix">account_balance_wallet</i>
+                            <input required class="validate" type="number" name="estInsc"
+                                placeholder="Inscrição Estadual">
+                        </div>
+                    </div>
+
+                    <div class="col s12 m3 l3">
+                        <div class="input-field">
+                            <i class="material-icons prefix">my_location</i>
+                            <input required class="validate" type="text" name="cep" placeholder="CEP">
+                        </div>
+                    </div>
+
+                    <div class="col s12 m10 l10">
+                        <div class="input-field">
+                            <i class="material-icons prefix">location_city</i>
+                            <input required disabled class="validate" type="text" name="address"
+                                placeholder="Logradouro">
+                        </div>
+                    </div>
+
+                    <div class="col s12 m2 l2">
+                        <div class="input-field">
+                            <i class="material-icons prefix">filter_1</i>
+                            <input required class="validate" type="text" name="addressNum" placeholder="Nº">
+                        </div>
+                    </div>
+                    <div class="col s12" style="height: 20px"></div>
+                    <h6 class="col s12">DADOS DO RESPONSÁVEL</h6>
+                    <div class="col s12 m8 l8">
+                        <div class="input-field">
+                            <i class="material-icons prefix">person</i>
+                            <input required class="validate" type="text" name="respName" placeholder="Nome">
+                        </div>
+                    </div>
+                    <div class="col s12 m4 l4">
+                        <div class="input-field">
+                            <i class="material-icons prefix">assignment_ind</i>
+                            <input required class="validate" type="text" name="respCpf" placeholder="CPF">
+                        </div>
+                    </div>
+                    <div class="col s12 m5 l5">
+                        <div class="input-field">
+                            <i class="material-icons prefix">phone</i>
+                            <input required class="validate" type="text" name="respPhone" placeholder="Telefone">
+                        </div>
+                    </div>
+                    <div class="col s12 m7 l7">
+                        <div class="input-field">
+                            <i class="material-icons prefix">email</i>
+                            <input required class="validate" type="email" name="respEmail" placeholder="Email">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer row valign-wrapper" style="margin: 0;">
+                <div class="progress col s6 m8 l8" style="margin: 0 auto; visibility: hidden;">
+                    <div class="indeterminate"></div>
+                </div>
+                <a class="modal-close waves-effect btn-flat red-text">CANCELAR</a>
+                <button type="submit" id="submit" class="confirm-btn waves-effect btn blue darken-2">CADASTRAR</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="ong_modal" class="modal modal-fixed-footer">
+        <form>
+            <div class="modal-content" style="margin-bottom: 10px;">
+                <h4 id="signup_text" class="center light">CADASTRAR COLETOR</h4>
+                <h4 id="edit_text" class="center light" style="display: none;">EDITAR DADOS</h4>
+                <div class="row" style="margin:0;">
+                    <i id="modal-close" class="material-icons modal-close btn-flat">close</i>
+                    <div class="col s12 m8 l8">
+                        <div class="input-field">
+                            <i class="material-icons prefix">person</i>
+                            <input required class="validate" type="text" name="name" placeholder="Nome Completo">
+                        </div>
+                    </div>
+
+                    <div class="col s12 m4 l4">
+                        <div class="input-field">
+                            <i class="material-icons prefix">date_range</i>
+                            <input required class="validate" type="text" name="birthday" placeholder="Data de Nasc.">
+                        </div>
+                    </div>
+
+                    <div class="col s12 m12 l12">
+                        <div class="input-field">
+                            <i class="material-icons prefix">email</i>
+                            <input required class="validate" type="email" name="email" placeholder="Email">
+                        </div>
+                    </div>
+
+                    <div class="col s12 m6 l6">
+                        <div class="input-field">
+                            <i class="material-icons prefix">phone</i>
+                            <input required class="validate" type="text" name="phone" placeholder="Telefone 1">
+                        </div>
+                    </div>
+
+                    <div class="col s12 m6 l6">
+                        <div class="input-field">
+                            <i class="material-icons prefix">phone</i>
+                            <input class="validate" type="text" name="alternativePhone" placeholder="Telefone 2">
+                        </div>
+                    </div>
+
+                    <div class="col s12 m5 l5">
+                        <div class="input-field">
+                            <i class="material-icons prefix">assignment_ind</i>
+                            <input class="validate" type="text" name="cpf" placeholder="CPF">
+                        </div>
+                    </div>
+
+                    <div class="col s12 m4 l4">
+                        <div class="input-field">
+                            <i class="material-icons prefix">note</i>
+                            <input class="validate" type="text" name="rg" placeholder="RG">
+                        </div>
+                    </div>
+
+                    <div class="col s12 m3 l3">
+                        <div class="input-field">
+                            <i class="material-icons prefix">my_location</i>
+                            <input required class="validate" type="text" name="cep" placeholder="CEP">
+                        </div>
+                    </div>
+
+                    <div class="col s12 m10 l10">
+                        <div class="input-field">
+                            <i class="material-icons prefix">location_city</i>
+                            <input required disabled class="validate" type="text" name="address"
+                                placeholder="Logradouro">
+                        </div>
+                    </div>
+
+                    <div class="col s12 m2 l2">
+                        <div class="input-field">
+                            <i class="material-icons prefix">filter_1</i>
+                            <input required class="validate" type="text" name="addressNum" placeholder="Nº">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer row valign-wrapper" style="margin: 0;">
+                <div class="progress col s6 m8 l8" style="margin: 0 auto; visibility: hidden;">
+                    <div class="indeterminate"></div>
+                </div>
+                <a class="modal-close waves-effect btn-flat red-text">CANCELAR</a>
+                <button type="submit" id="submit" class="confirm-btn waves-effect btn blue darken-2">CADASTRAR</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="confirmation" class="modal">
+        <div class="modal-content center">
+            <h5>REMOVER CADASTRO?</h5>
+            <h6>Essa ação não pode ser revertida, tem certeza disso?</h6>
+        </div>
+        <div class="modal-footer">
+            <div class="container progress" style="margin: 0 auto; visibility: hidden;">
+                <div class="indeterminate"></div>
+            </div>
+            <a class="confirm-btn modal-close waves-effect btn-flat red-text">Cancelar</a>
+            <a id="confirm" class="confirm-btn waves-effect btn-flat green-text">Sim</a>
+        </div>
+    </div>
+
+    <div id="pass-confirmation" class="modal">
+        <div class="modal-content center">
+            <h5>ALTERAR SENHA?</h5>
+            <h6>Um email será enviado para a alteração da senha.</h6>
+        </div>
+        <div class="modal-footer">
+            <div class="container progress" style="margin: 0 auto; visibility: hidden;">
+                <div class="indeterminate"></div>
+            </div>
+            <a class="confirm-btn modal-close waves-effect btn-flat red-text">Cancelar</a>
+            <a id="pass-confirm" class="confirm-btn modal-close waves-effect btn-flat green-text">Sim</a>
+        </div>
+    </div>
+
+    <!--Import Jquery and Plugin-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <!--Import materialize.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!--Firebase Config-->
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-functions.js"></script>
+    <script src="../../js/config.js"></script>
+
+    <!--Other Scripts-->
+    <script src="../js/main.js"></script>
+    <script src="../js/manage.js"></script>
+</body>
+
+</html>
