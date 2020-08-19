@@ -1,0 +1,66 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+  	function checkMessage() {
+      	return get(/databases/$(database)/documents/requests/$(request.resource.data.requestId)).data.state == 2 
+        && request.auth.uid != null;
+    }
+    
+    function checkStateUpdate() {
+      	return ((resource.data.state == 1  && request.resource.data.state == 2 ) 
+        || (resource.data.state == 2 && request.resource.data.state == 1)
+        || (resource.data.state == 2 && request.resource.data.state == 3)
+        || (resource.data.state == 3 && request.resource.data.state == 3)
+        ||	((resource.data.state == 2 && request.resource.data.state == 2) && 
+        	 resource.data.pickerId ==  request.resource.data.pickerId))
+        && request.auth.uid != null;
+    }
+    
+    function checkRequestDeletion() {
+      	return resource.data.state == 1;
+    }
+    
+    match /requests/{requests} {
+    	allow read, create: if request.auth.uid != null;
+      allow delete: if checkRequestDeletion();
+      allow update: if checkStateUpdate();
+    }
+    
+    match /requests/{requests}/messages/{message} {
+			allow read, delete: if request.auth.uid != null;
+      allow create: if checkMessage();
+		}
+    
+    match /pickers/{picker} {
+    	allow read, write: if request.auth.uid != null;
+    }
+    
+    match /institutions/{institution} {
+    	allow read, write: if request.auth.uid != null;
+    }
+    
+    match /donors/{donors} {
+    	allow read, write: if request.auth.uid != null;
+    }
+    
+    match /donors/{donors}/locations/{location} {
+    	allow read, write: if request.auth.uid != null;
+    }
+    
+    match /trashTypes/{trashTypes} {
+    	allow read: if request.auth.uid != null;
+    }
+    
+    match /trashAmounts/{trashTypes} {
+    	allow read: if request.auth.uid != null;
+    }
+    
+    match /phones/{phone} {
+    	allow read, create, delete;
+    }
+    
+    match /emails/{email} {
+    	allow read, create, delete;
+    }
+  }
+}

@@ -1,6 +1,40 @@
 {
+  "hosting": {
+    "site": "coronapp",
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "functions": {
+    "predeploy": [
+      "npm --prefix $Env:RESOURCE_DIR run lint"
+    ]
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "emulators": {
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "port": 8080
+    },
     "hosting": {
-        "site": "recicle",
-        "public": "public"
+      "port": 5000
+    },
+    "ui": {
+      "enabled": true
     }
+  }
 }
