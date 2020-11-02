@@ -1,5 +1,15 @@
 /*GENERAL*/
 
+
+h3 {
+font-family: 'Francois One', sans-serif;
+color: #e53935;
+}
+
+h5 {
+color: #e53935;
+}
+
 header, main, footer {
     padding-left: 300px;
 }
