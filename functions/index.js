@@ -28,7 +28,7 @@ exports.addAdmin = functions.https.onCall((data, context) => {
     });
 });
 
-exports.addInstituition = functions.firestore.document('institutions/{userID}').onCreate((snap, context) => {
+exports.addInstitution = functions.firestore.document('institutions/{userID}').onCreate((snap, context) => {
     return admin.auth().setCustomUserClaims(snap.id, {
         institution: true
     }).then(() => {

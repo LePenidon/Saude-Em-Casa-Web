@@ -15,12 +15,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!--Website Title-->
-    <title>RECICLE+</title>
+    <title>CORONAPP GERENCIA</title>
 </head>
 
 <body class="grey lighten-4">
 
-    <div class="loader">
+    <!--<div class="loader">
         <div class="preloader-wrapper active">
             <div class="spinner-layer spinner-white">
                 <div class="circle-clipper left">
@@ -52,7 +52,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 
     <ul id="menu" class="dropdown-content">
         <li><a id="name" class="black-text center" style="cursor: default;"></a></li>
@@ -91,18 +91,18 @@
                 <div class="card-content">
                     <div class="row">
                         <h4 id="adm_mainTitle" class="light center">GERENCIAR INSTITUIÇÕES</h4>
-                        <h4 id="ong_mainTitle" class="light center">GERENCIAR COLETORES</h4>
+                        <h4 id="ong_mainTitle" class="light center">GERENCIAR FUNCIONÁRIOS</h4>
                     </div>
                     <table class="striped centered">
                         <thead>
                             <tr id="adm_titles" style="display: none;">
                                 <th class="left">NOME DA INSTITUIÇÃO</th>
-                                <th>COLETORES GERENCIADOS</th>
+                                <th>FUNCIONÁRIOS GERENCIADOS</th>
                                 <th>EDITAR / EXCLUIR</th>
                             </tr>
                             <tr id="ong_titles" style="display: none;">
-                                <th class="left">NOME DO COLETOR</th>
-                                <th>COLETAS REALIZADAS</th>
+                                <th class="left">NOME DO FUNCIONÁRIO</th>
+                                <th>ATENDIMENTOS REALIZADOS</th>
                                 <th>AVALIAÇÃO</th>
                                 <th>EDITAR / EXCLUIR</th>
                             </tr>
@@ -110,7 +110,7 @@
                         <tbody></tbody>
                     </table>
                     <h6 id="adm_null" class="center" style="display: none;">NENHUMA INSTITUIÇÃO CADASTRADA</h6>
-                    <h6 id="ong_null" class="center" style="display: none;">NENHUM COLETOR CADASTRADO</h6>
+                    <h6 id="ong_null" class="center" style="display: none;">NENHUM FUNCIONÁRIO CADASTRADO</h6>
                     <div style="height: 15px;"></div>
                     <div class="center">
                         <button id="adm_button" data-target="adm_modal"
@@ -119,7 +119,7 @@
                         </button>
                         <button id="ong_button" data-target="ong_modal"
                             class="modal-trigger btn waves-effect waves-light blue darken-2">
-                            Cadastrar Coletor<i class="material-icons right">add</i>
+                            Cadastrar Funcionário<i class="material-icons right">add</i>
                         </button>
                     </div>
                 </div>
@@ -232,7 +232,7 @@
     <div id="ong_modal" class="modal modal-fixed-footer">
         <form>
             <div class="modal-content" style="margin-bottom: 10px;">
-                <h4 id="signup_text" class="center light">CADASTRAR COLETOR</h4>
+                <h4 id="signup_text" class="center light">CADASTRAR FUNCIONÁRIO</h4>
                 <h4 id="edit_text" class="center light" style="display: none;">EDITAR DADOS</h4>
                 <div class="row" style="margin:0;">
                     <i id="modal-close" class="material-icons modal-close btn-flat">close</i>

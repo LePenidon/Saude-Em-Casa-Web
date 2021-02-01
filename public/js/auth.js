@@ -23,8 +23,13 @@ $(window).on('load', function () {
     auth.onAuthStateChanged(function (user) {
         if (user) {
             user.getIdTokenResult().then(idTokenResult => {
-                if (idTokenResult.claims.admin || idTokenResult.claims.institution) $(location).attr("href", "gerencia/");
-                else auth.signOut();
+                if (idTokenResult.claims.admin || idTokenResult.claims.institution) {
+                    $(location).attr("href", "gerencia/");
+                }
+                else { 
+                    auth.signOut();
+                    alert("faiou");
+                }
             });
         } else {
             $('.loader').hide();
