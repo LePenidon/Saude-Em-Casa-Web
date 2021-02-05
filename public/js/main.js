@@ -1,4 +1,13 @@
 $(document).ready(function () {
+
+    // var sendEmail = firebase.functions().httpsCallable('addAdmin');
+    // sendEmail({ email: "penido1000@gmail.com" }).then(function (result) {
+    //     console.log("cadastrouuuu");
+    // }).catch(function (err) {
+    //     console.log("lixo errou");
+    //     console.log(err);
+    // });
+
     //MATERIALIZE CONFIG
     $(".dropdown-trigger").dropdown({
         constrainWidth: false,

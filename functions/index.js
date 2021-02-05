@@ -14,9 +14,9 @@ const mailTransport = nodemailer.createTransport({
 });
 
 exports.addAdmin = functions.https.onCall((data, context) => {
-    if (context.auth.token.admin !== true) {
-        console.log("Only admins can add other admins");
-    }
+    // if (context.auth.token.admin !== true) {
+    //     console.log("Only admins can add other admins");
+    // }
     return admin.auth().getUserByEmail(data.email).then(user => {
         return admin.auth().setCustomUserClaims(user.uid, {
             admin: true
@@ -251,9 +251,9 @@ exports.sendChangeRequestStateNotification = functions.firestore
 
                             var dismissedPickers = doc.dismissedPickers;
 
-                            if (userTo.data().pushToken 
-                            && userTo.data().isActive == true 
-                            && !dismissedPickers.includes(userTo.data().userId)) {
+                            if (userTo.data().pushToken
+                                && userTo.data().isActive == true
+                                && !dismissedPickers.includes(userTo.data().userId)) {
                                 // Get info user from (sent)
                                 const payload = {
                                     "notification": {
