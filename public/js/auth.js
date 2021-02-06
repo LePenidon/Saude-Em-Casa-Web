@@ -28,7 +28,7 @@ $(window).on('load', function () {
                 }
                 else { 
                     auth.signOut();
-                    alert("faiou");
+                    alert("Erro de autenticação. Contate os responsáveis pelo sistema.");
                 }
             });
         } else {
