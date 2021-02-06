@@ -3,8 +3,9 @@ const nodemailer = require('nodemailer');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
-const gmailEmail = functions.config().gmail.email;
-const gmailPass = functions.config().gmail.password;
+const gmailEmail = functions.config().someservice.email;
+const gmailPass = functions.config().someservice.pass;
+
 const mailTransport = nodemailer.createTransport({
     service: 'gmail',
     auth: {
