@@ -151,6 +151,7 @@ $(window).on('load', function () {
         var none, titles, query;
         if (user.admin) {
             $('#ong_button').hide();
+            $('#watch_button').hide();
             $('#ong_mainTitle').hide();
             $('#adm_mainTitle').show();
             $('#profile-option').hide();
@@ -169,6 +170,7 @@ $(window).on('load', function () {
 
             none = $('#ong_null');
             titles = $('#ong_titles');
+            //Retirar esse query daqui, porque ele está condicionando o histórico)
             query = db.collection('pickers').where("institutionId", "==", auth.currentUser.uid);
 
             $modal = $('#ong_modal');
@@ -190,7 +192,7 @@ $(window).on('load', function () {
             $('tbody').html('');
             querySnapshot.forEach(function (doc) {
                 var name = doc.data().name;
-                var num, rating;
+                var num, rating, dado1;
 
                 if (user.admin) {
                     num = doc.data().managedPickers;
@@ -213,7 +215,7 @@ $(window).on('load', function () {
                     if (num == undefined) num = '0';
                     num = doc.data().finishedRequests;
                     rating = doc.data().rating.toFixed(2);
-                    $('tbody').append(
+                    $('.gerencia_funcionarios').append(
                         `<tr>
                             <td class="left">` + name + `</td>
                             <td>` + num + `</td>
@@ -228,6 +230,17 @@ $(window).on('load', function () {
                             </td>
                         </tr>`
                     );
+                //começo da patifaria
+                    if (dado1 == undefined) dado1 = '0';
+                    dado1 = doc.data().name;
+                    $('.historic').append(
+                        `
+                            <tr>
+                                <td>` + dado1 + `</td>
+                                <td>LinkRelatorio</td>
+                            </tr>`
+                    );
+
                 }
             });
             $('.loader').hide();
