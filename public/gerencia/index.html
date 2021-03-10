@@ -244,13 +244,13 @@
                         <div class="input-field center">
                         <p>
                         <label>
-                            <input name="occupation" id="worker" class="validate with-gap" type="radio" checked value="funcionário"/>
+                            <input name="occupation" id="worker" class="validate with-gap" type="radio" value="requestsMedic"/>
                             <span for="worker" class="black-text">Funcionário</span>
                         </label>
                         </p>
                         <p>
                             <label>
-                                <input name="occupation" id="volunteer" class="validate with-gap" type="radio" value="voluntário"/>
+                                <input name="occupation" id="volunteer" class="validate with-gap" type="radio" value="requestsVolunt"/>
                                 <span for="volunteer" class="black-text">Voluntário</span>
                             </label>
                         </p>
@@ -339,29 +339,13 @@
         </form>
     </div>
 
-    <div id="watch_modal" class="modal modal-fixed-footer">
+    <div id="watch_modal" class="modal">
             <h4 id="signup_text" class="center light"><br>HISTÓRICO</h4>
             <i id="modal-close" class="material-icons modal-close btn-flat">close</i>
             
-            <table class="striped centered">
-                <thead>
-                    <tr>
-                        <th>Nome do Funcionário</th>
-                        <th>Relatório do atendimento</th>
-                    </tr>
-                </thead>
-                <tbody class="historic"></tbody>
-            </table>
-
+            <div class="historic"></div>
 
             <!-- rodapé abaixo -->
-            <div class="modal-footer row valign-wrapper" style="margin: 0;">
-                <div class="progress col s6 m8 l8" style="margin: 0 auto; visibility: hidden;">
-                    <div class="indeterminate"></div>
-                </div>
-                <a class="modal-close waves-effect btn-flat red-text">CANCELAR</a>
-                <button type="submit" id="submit" class="confirm-btn waves-effect btn blue darken-2">CADASTRAR</button>
-            </div>
     </div>
     
     <div id="confirmation" class="modal">
