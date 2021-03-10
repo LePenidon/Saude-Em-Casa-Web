@@ -148,7 +148,7 @@ $(window).on('load', function () {
     });
 
     const setupUI = function (user) {
-        var none, titles, query;
+        var none, titles, query, query2, query3;
         if (user.admin) {
             $('#ong_button').hide();
             $('#watch_button').hide();
@@ -170,9 +170,7 @@ $(window).on('load', function () {
 
             none = $('#ong_null');
             titles = $('#ong_titles');
-            //Retirar esse query daqui, porque ele está condicionando o histórico)
             query = db.collection('pickers').where("institutionId", "==", auth.currentUser.uid);
-
             $modal = $('#ong_modal');
             $form = $modal.find('form');
             $('#name').html(auth.currentUser.displayName);
@@ -230,9 +228,45 @@ $(window).on('load', function () {
                             </td>
                         </tr>`
                     );
-                //começo da patifaria
+
+                    query2 = db.collection('requestsMedic').where("pickerId", "==", doc.id);
+                    query2.onSnapshot(function (query2Snapshot) {
+                        query2Snapshot.forEach(function (docum) {
+                            var teste = docum.data().donorId;
+
+                            query3 = db.collection('donors').where("userId", "==", teste);
+
+                            query3.onSnapshot(function (query3Snapshot) {
+                                query3Snapshot.forEach(function (docume) {
+                                    var nomeDonor = docume.data().quest01;
+                                    var nomeDonor2 = docume.data().quest02;
+                                    var nomeDonor3 = docume.data().quest20;
+
+                                    //colocar form aqui
+                                    console.log(nomeDonor);
+                                    console.log(nomeDonor2);
+                                    console.log(nomeDonor3);
+                                });
+                                $('.loader').hide();
+                            }, function (err) {
+                                $('.loader').hide();
+                                console.log(err);
+                                if (err) M.toast({ html: 'Falha ao Carregar! Recarregue a Página' });
+                            });
+
+
+                        });
+                        $('.loader').hide();
+                    }, function (err) {
+                        $('.loader').hide();
+                        console.log(err);
+                        if (err) M.toast({ html: 'Falha ao Carregar! Recarregue a Página' });
+                    });
+
+                    //começo da patifaria
                     if (dado1 == undefined) dado1 = '0';
                     dado1 = doc.data().name;
+
                     $('.historic').append(
                         `
                             <tr>
