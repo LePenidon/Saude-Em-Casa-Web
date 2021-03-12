@@ -149,6 +149,7 @@ $(window).on('load', function () {
 
     const setupUI = function (user) {
         var none, titles, query, query2, query3;
+        var donors = [];
         if (user.admin) {
             $('#ong_button').hide();
             $('#watch_button').hide();
@@ -229,27 +230,33 @@ $(window).on('load', function () {
                         </tr>`
                     );
 
-                    query2 = db.collection('requestsMedic').where("pickerId", "==", doc.id);
+                    query2 = db.collection('requestsMedic').where("pickerId", "==", doc.id).where("state", "==", 3);
                     query2.onSnapshot(function (query2Snapshot) {
                         query2Snapshot.forEach(function (docum) {
                             var teste = docum.data().donorId;
 
                             query3 = db.collection('donors').where("userId", "==", teste);
+                            donors.push(teste);
 
-                            query3.onSnapshot(function (query3Snapshot) {
-                                query3Snapshot.forEach(function (docume) {
-                                    var nomeDonor = docume.data().name;
-                                    var p1 = docume.data().quest01; var p2 = docume.data().quest02; var p3 = docume.data().quest03; var p4 = docume.data().quest04; var p5 = docume.data().quest05; var p6 = docume.data().quest06; var p7 = docume.data().quest07;
-                                    var p8 = docume.data().quest08; var p9 = docume.data().quest09; var p10 = docume.data().quest10; var p11 = docume.data().quest11; var p12 = docume.data().quest12; var p13 = docume.data().quest13; var p14 = docume.data().quest14;
-                                    var p15 = docume.data().quest15; var p16 = docume.data().quest16; var p17 = docume.data().quest17; var p18 = docume.data().quest18; var p19 = docume.data().quest19; var p20 = docume.data().quest20;
-                                    
-                                    if (p1 == true) p1 = 'sim'; if (p1 == false) p1 = 'não'; if (p2 == true) p2 = 'sim'; if (p2 == false) p2 = 'não'; if (p3 == true) p3 = 'sim'; if (p3 == false) p3 = 'não'; if (p4 == true) p4 = 'sim'; if (p4 == false) p4 = 'não'; if (p5 == true) p5 = 'sim'; if (p5 == false) p5 = 'não'; if (p6 == true) p6 = 'sim'; if (p6 == false) p6 = 'não'; if (p7 == true) p7 = 'sim'; if (p7 == false) p7 = 'não'; if (p8 == true) p8 = 'sim'; if (p8 == false) p8 = 'não'; if (p9 == true) p9 = 'sim'; if (p9 == false) p9 = 'não'; if (p10 == true) p10 = 'sim'; if (p10 == false) p10 = 'não'; if (p11 == true) p11 = 'sim'; if (p11 == false) p11 = 'não'; if (p12 == true) p12 = 'sim'; if (p12 == false) p12 = 'não'; if (p13 == true) p13 = 'sim'; if (p13 == false) p13 = 'não'; if (p14 == true) p14 = 'sim'; if (p14 == false) p14 = 'não'; if (p15 == true) p15 = 'sim'; if (p15 == false) p15 = 'não'; if (p16 == true) p16 = 'sim'; if (p16 == false) p16 = 'não'; if (p17 == true) p17 = 'sim'; if (p17 == false) p17 = 'não'; if (p18 == true) p18 = 'sim'; if (p18 == false) p18 = 'não'; if (p19 == true) p19 = 'sim'; if (p19 == false) p19 = 'não';
+                            for (var i = 0; i < donors.length; i++) {
+                                var item = donors[i];
+                                if (item != teste) {
 
-                                    //colocar form aqui
-                                    //começo da patifaria
+                                } else {
+                                    query3.onSnapshot(function (query3Snapshot) {
+                                        query3Snapshot.forEach(function (docume) {
+                                            var nomeDonor = docume.data().name;
+                                            var p1 = docume.data().quest01; var p2 = docume.data().quest02; var p3 = docume.data().quest03; var p4 = docume.data().quest04; var p5 = docume.data().quest05; var p6 = docume.data().quest06; var p7 = docume.data().quest07;
+                                            var p8 = docume.data().quest08; var p9 = docume.data().quest09; var p10 = docume.data().quest10; var p11 = docume.data().quest11; var p12 = docume.data().quest12; var p13 = docume.data().quest13; var p14 = docume.data().quest14;
+                                            var p15 = docume.data().quest15; var p16 = docume.data().quest16; var p17 = docume.data().quest17; var p18 = docume.data().quest18; var p19 = docume.data().quest19; var p20 = docume.data().quest20;
 
-                                    $('.historic').append(
-                                        `<div class="center" style="margin-left:100px;margin-right:100px;background-color:#ffcdd2;border-width: thin;border-style: solid;border-color:#ef5350;">
+                                            if (p1 == true) p1 = 'sim'; if (p1 == false) p1 = 'não'; if (p2 == true) p2 = 'sim'; if (p2 == false) p2 = 'não'; if (p3 == true) p3 = 'sim'; if (p3 == false) p3 = 'não'; if (p4 == true) p4 = 'sim'; if (p4 == false) p4 = 'não'; if (p5 == true) p5 = 'sim'; if (p5 == false) p5 = 'não'; if (p6 == true) p6 = 'sim'; if (p6 == false) p6 = 'não'; if (p7 == true) p7 = 'sim'; if (p7 == false) p7 = 'não'; if (p8 == true) p8 = 'sim'; if (p8 == false) p8 = 'não'; if (p9 == true) p9 = 'sim'; if (p9 == false) p9 = 'não'; if (p10 == true) p10 = 'sim'; if (p10 == false) p10 = 'não'; if (p11 == true) p11 = 'sim'; if (p11 == false) p11 = 'não'; if (p12 == true) p12 = 'sim'; if (p12 == false) p12 = 'não'; if (p13 == true) p13 = 'sim'; if (p13 == false) p13 = 'não'; if (p14 == true) p14 = 'sim'; if (p14 == false) p14 = 'não'; if (p15 == true) p15 = 'sim'; if (p15 == false) p15 = 'não'; if (p16 == true) p16 = 'sim'; if (p16 == false) p16 = 'não'; if (p17 == true) p17 = 'sim'; if (p17 == false) p17 = 'não'; if (p18 == true) p18 = 'sim'; if (p18 == false) p18 = 'não'; if (p19 == true) p19 = 'sim'; if (p19 == false) p19 = 'não';
+
+                                            //colocar form aqui
+                                            //começo da patifaria
+
+                                            $('.historic').append(
+                                                `<div class="center" style="margin-left:100px;margin-right:100px;background-color:#ffcdd2;border-width: thin;border-style: solid;border-color:#ef5350;">
                                         <u><b>Atendimento realizado por: ` + name + ` - Nome do paciente: 
                                         ` + nomeDonor + `</b></u><br>1.Doença cardíaca descompensada: ` + p1 + `;
                                         <br>2. Doença cardíaca congênita: ` + p2 + `;
@@ -273,16 +280,17 @@ $(window).on('load', function () {
                                         <br>20. Outras doenças: ` + p20 + `;
 
                                         </div><br>`
-                                    );
+                                            );
 
-                                });
-                                $('.loader').hide();
-                            }, function (err) {
-                                $('.loader').hide();
-                                console.log(err);
-                                if (err) M.toast({ html: 'Falha ao Carregar! Recarregue a Página' });
-                            });
-
+                                        });
+                                        $('.loader').hide();
+                                    }, function (err) {
+                                        $('.loader').hide();
+                                        console.log(err);
+                                        if (err) M.toast({ html: 'Falha ao Carregar! Recarregue a Página' });
+                                    });
+                                }
+                            }
 
                         });
                         $('.loader').hide();
