@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!--Website Title-->
-    <title>CORONAPP GERENCIA</title>
+    <title>Saúde Em Casa GERENCIA</title>
 </head>
 
 <body class="grey lighten-4">
@@ -64,7 +64,7 @@
         <nav class="primary-color z-depth-0">
             <div class="nav-wrapper">
                 <div class="container">
-                    <a class="brand-logo">CORONAPP</a>
+                    <a class="brand-logo">SAÚDE EM CASA</a>
                     <ul class="right hide-on-med-and-down">
                         <li id="profile-option">
                             <a id="profile" class="dropdown-trigger" data-target="menu">
@@ -101,9 +101,9 @@
                                 <th>EDITAR / EXCLUIR</th>
                             </tr>
                             <tr id="ong_titles" style="display: none;">
-                                <th class="left">NOME DO FUNCIONÁRIO</th>
+                                <th class="left">NOME</th>
                                 <th>ATENDIMENTOS REALIZADOS</th>
-                                <th>AVALIAÇÃO</th>
+                                <!--<th>AVALIAÇÃO</th>-->
                                 <th>EDITAR / EXCLUIR</th>
                             </tr>
                         </thead>
@@ -244,8 +244,8 @@
                         <div class="input-field center">
                         <p>
                         <label>
-                            <input name="occupation" id="worker" class="validate with-gap" type="radio" value="requestsMedic"/>
-                            <span for="worker" class="black-text">Funcionário</span>
+                            <input checked name="occupation" id="worker" class="validate with-gap" type="radio" value="requestsMedic"/>
+                            <span for="worker" class="black-text">Funcionário da Saúde</span>
                         </label>
                         </p>
                         <p>
@@ -288,21 +288,21 @@
                     <div class="col s12 m6 l6">
                         <div class="input-field">
                             <i class="material-icons prefix">phone</i>
-                            <input class="validate" type="text" name="alternativePhone" placeholder="Telefone 2">
+                            <input required class="validate" type="text" name="alternativePhone" placeholder="Telefone 2">
                         </div>
                     </div>
 
                     <div class="col s12 m5 l5">
                         <div class="input-field">
                             <i class="material-icons prefix">assignment_ind</i>
-                            <input class="validate" type="text" name="cpf" placeholder="CPF">
+                            <input required class="validate" type="text" name="cpf" placeholder="CPF">
                         </div>
                     </div>
 
                     <div class="col s12 m4 l4">
                         <div class="input-field">
                             <i class="material-icons prefix">note</i>
-                            <input class="validate" type="text" name="rg" placeholder="RG">
+                            <input required class="validate" type="text" name="rg" placeholder="RG">
                         </div>
                     </div>
 

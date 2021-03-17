@@ -77,7 +77,6 @@ $(window).on('load', function () {
                 var collection = 'institutions';
             } else {
                 var collection = 'pickers';
-                $data['rating'] = 5;
                 $data['isActive'] = true;
                 $data['finishedRequests'] = 0;
                 $data['institutionId'] = auth.currentUser.uid;
@@ -190,7 +189,7 @@ $(window).on('load', function () {
             $('tbody').html('');
             querySnapshot.forEach(function (doc) {
                 var name = doc.data().name;
-                var num, rating, dado1;
+                var num, dado1;
 
                 if (user.admin) {
                     num = doc.data().managedPickers;
@@ -212,12 +211,10 @@ $(window).on('load', function () {
                 } else {
                     if (num == undefined) num = '0';
                     num = doc.data().finishedRequests;
-                    rating = doc.data().rating.toFixed(2);
                     $('.gerencia_funcionarios').append(
                         `<tr>
                             <td class="left">` + name + `</td>
                             <td>` + num + `</td>
-                            <td>` + rating + `</td>
                             <td class="row">
                                 <div class="col s4 offset-s2">
                                     <i class="material-icons black-text editOption" id="` + doc.id + `">edit</i>
@@ -319,7 +316,7 @@ $(window).on('load', function () {
             $form.attr('id', thisID);
             fillData = doc.data();
             $.each(fillData, function (index, field) {
-                if (index != "pickers" || index != "pushToken" || index != "chattingWith" || index != "isActive" || index != "userId" || index != "rating") {
+                if (index != "pickers" || index != "pushToken" || index != "chattingWith" || index != "isActive" || index != "userId") {
                     $form.find("input[name='" + index + "']").val(field);
                 }
             });
