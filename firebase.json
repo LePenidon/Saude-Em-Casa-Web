@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "coronapp",
+    "site": "saudemcasa",
     "public": "public",
     "ignore": [
       "firebase.json",
