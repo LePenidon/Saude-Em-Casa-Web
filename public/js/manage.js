@@ -254,7 +254,7 @@ $(window).on('load', function () {
                                         //começo da patifaria
 
                                         $('.historic').append(
-                                            `<div class="center" style="margin-left:100px;margin-right:100px;background-color:#ffcdd2;border-width: thin;border-style: solid;border-color:#ef5350;">
+                                            `<div class="left" style="margin-left:100px;margin-right:100px;background-color:#ffcdd2;border-width: thin;border-style: solid;border-color:#ef5350;">
                                         <u><b>Atendimento realizado por: ` + name + ` - Nome do paciente: 
                                         ` + nomeDonor + `</b></u><br>1.Doença cardíaca descompensada: ` + p1 + `;
                                         <br>2. Doença cardíaca congênita: ` + p2 + `;
