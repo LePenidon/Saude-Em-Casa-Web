@@ -77,7 +77,7 @@ async function sendWelcomeEmail(dest, pass, name) {
 
 //Chat Notification
 exports.sendMessageNotification = functions.firestore
-    .document('requests/{request}/messages/{message}')
+    .document('requestsMedic/{request}/messages/{message}')
     .onCreate((snap, context) => {
         const doc = snap.data();
         console.log(doc);
