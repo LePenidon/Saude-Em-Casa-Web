@@ -157,8 +157,89 @@ exports.sendMessageNotification = functions.firestore
         return null;
     });
 
+exports.sendMessageNotificationVolunt = functions.firestore
+    .document('requestsVolunt/{request}/messages/{message}')
+    .onCreate((snap, context) => {
+        const doc = snap.data();
+        console.log(doc);
+
+        var fromCollection;
+        var toCollection;
+
+        const idTo = doc.to;
+        const idFrom = doc.from;
+        const contentMessage = doc.text;
+        const requestId = doc.requestId;
+        const sentByDonor = doc.sentByDonor;
+
+        console.log(idFrom);
+        console.log(sentByDonor);
+        if (!sentByDonor) {
+            fromCollection = 'pickers';
+            toCollection = 'donors';
+        }
+        else {
+            fromCollection = 'donors';
+            toCollection = 'pickers';
+        }
+        console.log(fromCollection);
+        console.log(toCollection);
+
+        // Get push token user to (receive)
+        admin
+            .firestore()
+            .collection(toCollection)
+            .where('userId', '==', idTo)
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.forEach(userTo => {
+                    console.log(`Found user to: ${userTo.data().name}`);
+                    console.log('User to Token: ' + userTo.data().pushToken);
+                    if (userTo.data().pushToken && userTo.data().isActive) {
+                        // Get info user from (sent)
+                        admin
+                            .firestore()
+                            .collection(fromCollection)
+                            .where('userId', '==', idFrom)
+                            .get()
+                            .then(querySnapshot2 => {
+                                querySnapshot2.forEach(userFrom => {
+                                    console.log(`Found user from: ${userFrom.data().name}`);
+                                    const payload = {
+                                        "notification": {
+                                            title: `Mensagem de ${userFrom.data().name}`,
+                                            body: contentMessage,
+                                        },
+                                        "data": {
+                                            click_action: 'FLUTTER_NOTIFICATION_CLICK',
+                                            type: 'message',
+                                            donorId: sentByDonor ? idFrom : idTo,
+                                            pickerId: sentByDonor ? idTo : idFrom,
+                                            requestId: requestId
+                                        }
+                                    }
+                                    // Let push to the target device
+                                    admin
+                                        .messaging()
+                                        .sendToDevice(userTo.data().pushToken, payload)
+                                        .then(response => {
+                                            console.log('Successfully sent message:', response);
+                                        })
+                                        .catch(error => {
+                                            console.log('Error sending message:', error);
+                                        })
+                                })
+                            })
+                    } else {
+                        console.log('Can not find pushToken target user');
+                    }
+                });
+            });
+        return null;
+    });
+
 exports.sendNewRequestNotification = functions.firestore
-    .document('requests/{request}')
+    .document('requestsMedic/{request}')
     .onCreate((snap, context) => {
         const doc = snap.data();
         console.log(doc);
@@ -177,8 +258,54 @@ exports.sendNewRequestNotification = functions.firestore
                         // Get info user from (sent)
                         const payload = {
                             "notification": {
-                                title: `Nova Coleta em ${doc.address}`,
-                                body: doc.trashAmount + " de " + doc.trashType,
+                                title: `Novo atendimento em ${doc.address}`,
+                                body: doc.trashAmount + " " + doc.trashType,
+                            },
+                            "data": {
+                                click_action: 'FLUTTER_NOTIFICATION_CLICK',
+                                type: 'new'
+                            }
+                        }
+
+                        admin
+                            .messaging()
+                            .sendToDevice(userTo.data().pushToken, payload)
+                            .then(response => {
+                                console.log('Successfully sent message:', response);
+                            })
+                            .catch(error => {
+                                console.log('Error sending message:', error);
+                            })
+                    } else {
+                        console.log('Can not find pushToken target user');
+                    }
+                });
+            });
+        return null;
+    });
+
+exports.sendNewRequestNotificationVolunt = functions.firestore
+    .document('requestsVolunt/{request}')
+    .onCreate((snap, context) => {
+        const doc = snap.data();
+        console.log(doc);
+
+        // Get push token user to (receive)
+        admin
+            .firestore()
+            .collection('pickers')
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.forEach(userTo => {
+                    console.log(`Found picker to: ${userTo.data().name}`);
+                    console.log('User to Token: ' + userTo.data().pushToken);
+
+                    if (userTo.data().pushToken && userTo.data().isActive == true) {
+                        // Get info user from (sent)
+                        const payload = {
+                            "notification": {
+                                title: `Nova Solicitação em ${doc.address}`,
+                                body: doc.trashAmount + " - " + doc.trashType,
                             },
                             "data": {
                                 click_action: 'FLUTTER_NOTIFICATION_CLICK',
@@ -205,7 +332,7 @@ exports.sendNewRequestNotification = functions.firestore
 
 //chat message
 exports.sendChangeRequestStateNotification = functions.firestore
-    .document('requests/{request}')
+    .document('requestsMedic/{request}')
     .onUpdate((change, context) => {
         const doc = change.after.data();
         console.log(doc);
@@ -230,15 +357,15 @@ exports.sendChangeRequestStateNotification = functions.firestore
                     id = previousPickerId;
                     type = 'dismiss';
                     request = 'pickers';
-                    title = "Coleta cancelada pelo Doador!";
-                    body = "Dados da coleta: " + trashAmount + " de " + trashType;
+                    title = "Atendimento cancelado pelo Usuário!";
+                    body = "Dados da solicitação: " + trashAmount + " " + trashType;
                 }
                 else {
                     type = 'dismiss';
                     id = doc.donorId;
                     request = 'donors';
-                    title = "Coleta cancelada pelo Coletor!";
-                    body = "Dados da coleta: " + trashAmount + " de " + trashType;
+                    title = "Atendimento cancelado pelo Funcionário!";
+                    body = "Dados da solicitação: " + trashAmount + " " + trashType;
                 }
 
                 admin
@@ -258,7 +385,7 @@ exports.sendChangeRequestStateNotification = functions.firestore
                                 // Get info user from (sent)
                                 const payload = {
                                     "notification": {
-                                        title: `Nova Coleta em ${doc.address}`,
+                                        title: `Novo Atendimento em ${doc.address}`,
                                         body: doc.trashAmount + " de " + doc.trashType,
                                     },
                                     "data": {
@@ -286,15 +413,15 @@ exports.sendChangeRequestStateNotification = functions.firestore
                 type = 'accept';
                 id = doc.donorId;
                 request = 'donors';
-                title = "Coleta Aceita!";
-                body = "Mande uma mensagem para combinar a coleta!";
+                title = "Atendimento Aceito!";
+                body = "Mande uma mensagem!";
 
             } else {
                 type = 'finish';
                 id = doc.donorId;
                 request = 'donors';
-                title = "Coleta terminada!";
-                body = "Visite o histórico e avalie o Coletor!";
+                title = "Atendimento terminado!";
+                body = "Visite o histórico!";
             }
 
             // Get push token user to (receive)
@@ -320,7 +447,144 @@ exports.sendChangeRequestStateNotification = functions.firestore
                                 "data": {
                                     click_action: 'FLUTTER_NOTIFICATION_CLICK',
                                     type: type,
-                                    body: "Dados da coleta: " + trashAmount + " de " + trashType + " em " + address
+                                    body: "Dados da solicitação: " + trashAmount + " " + trashType + " em " + address
+                                }
+                            }
+
+                            admin
+                                .messaging()
+                                .sendToDevice(userTo.data().pushToken, payload)
+                                .then(response => {
+                                    console.log('Successfully sent message:', response);
+                                })
+                                .catch(error => {
+                                    console.log('Error sending message:', error);
+                                })
+                        } else {
+                            console.log('Can not find pushToken target user');
+                        }
+                    });
+                });
+        }
+        return null;
+    });
+exports.sendChangeRequestStateNotificationVolunt = functions.firestore
+    .document('requestsVolunt/{request}')
+    .onUpdate((change, context) => {
+        const doc = change.after.data();
+        console.log(doc);
+
+        const state = doc.state;
+        const previousState = change.before.data().state;
+        const previousPickerId = change.before.data().pickerId;
+        if (state != previousState) {
+            const address = doc.address;
+            const trashType = doc.trashType;
+            const trashAmount = doc.trashAmount;
+
+            var id;
+            var body;
+            var type;
+            var title;
+            var request;
+
+            if (state == 1) {
+                const dismissedByDonor = doc.dismissedByDonor;
+                if (dismissedByDonor) {
+                    id = previousPickerId;
+                    type = 'dismiss';
+                    request = 'pickers';
+                    title = "Solicitação cancelada pelo Usuário!";
+                    body = "Dados da solicitação: " + trashAmount + " " + trashType;
+                }
+                else {
+                    type = 'dismiss';
+                    id = doc.donorId;
+                    request = 'donors';
+                    title = "Solicitação cancelada pelo Voluntário!";
+                    body = "Dados da Solicitação: " + trashAmount + " " + trashType;
+                }
+
+                admin
+                    .firestore()
+                    .collection('pickers')
+                    .get()
+                    .then(querySnapshot => {
+                        querySnapshot.forEach(userTo => {
+                            console.log(`Found picker to: ${userTo.data().name}`);
+                            console.log('User to Token: ' + userTo.data().pushToken);
+
+                            var dismissedPickers = doc.dismissedPickers;
+
+                            if (userTo.data().pushToken
+                                && userTo.data().isActive == true
+                                && !dismissedPickers.includes(userTo.data().userId)) {
+                                // Get info user from (sent)
+                                const payload = {
+                                    "notification": {
+                                        title: `Nova Solicitação em ${doc.address}`,
+                                        body: doc.trashAmount + " " + doc.trashType,
+                                    },
+                                    "data": {
+                                        click_action: 'FLUTTER_NOTIFICATION_CLICK',
+                                        type: 'new'
+                                    }
+                                }
+
+                                admin
+                                    .messaging()
+                                    .sendToDevice(userTo.data().pushToken, payload)
+                                    .then(response => {
+                                        console.log('Successfully sent message:', response);
+                                    })
+                                    .catch(error => {
+                                        console.log('Error sending message:', error);
+                                    })
+                            } else {
+                                console.log('Can not find pushToken target user');
+                            }
+                        });
+                    });
+
+            } else if (state == 2) {
+                type = 'accept';
+                id = doc.donorId;
+                request = 'donors';
+                title = "Solicitação Aceita!";
+                body = "Mande uma mensagem!";
+
+            } else {
+                type = 'finish';
+                id = doc.donorId;
+                request = 'donors';
+                title = "Solicitação terminada!";
+                body = "Visite o histórico!";
+            }
+
+            // Get push token user to (receive)
+            admin
+                .firestore()
+                .collection(request)
+                .where('userId', '==', id)
+                .get()
+                .then(querySnapshot => {
+                    querySnapshot.forEach(userTo => {
+                        const isActive = userTo.data().isActive;
+                        console.log('Is user Active: ' + isActive);
+                        console.log(`Found user: ${userTo.data().name}`);
+                        console.log('User to Token: ' + userTo.data().pushToken);
+
+                        if (userTo.data().pushToken && isActive) {
+                            // Get info user from (sent)
+                            const payload = {
+                                "notification": {
+                                    title: title,
+                                    body: body,
+                                },
+                                "data": {
+                                    click_action: 'FLUTTER_NOTIFICATION_CLICK',
+                                    type: type,
+                                    body: "Dados da Solicitação: " + trashAmount + " " + trashType + " em " + address
                                 }
                             }
 
