@@ -247,7 +247,7 @@ exports.sendNewRequestNotification = functions.firestore
         // Get push token user to (receive)
         admin
             .firestore()
-            .collection('pickers')
+            .collection('pickers').where('occupation', '==', 'requestsMedic')
             .get()
             .then(querySnapshot => {
                 querySnapshot.forEach(userTo => {
@@ -293,7 +293,7 @@ exports.sendNewRequestNotificationVolunt = functions.firestore
         // Get push token user to (receive)
         admin
             .firestore()
-            .collection('pickers')
+            .collection('pickers').where('occupation', '==', 'requestsVolunt')
             .get()
             .then(querySnapshot => {
                 querySnapshot.forEach(userTo => {
