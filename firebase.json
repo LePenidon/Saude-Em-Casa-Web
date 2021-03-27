@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "saudeemcasa-cefet",
+    "site": "saudeemcasadiv",
     "public": "public",
     "ignore": [
       "firebase.json",

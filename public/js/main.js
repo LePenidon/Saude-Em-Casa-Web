@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     //MATERIALIZE CONFIG
     $(".dropdown-trigger").dropdown({
         constrainWidth: false,

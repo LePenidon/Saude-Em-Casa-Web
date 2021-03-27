@@ -1,4 +1,5 @@
 $(window).on('load', function () {
+
     const $authForm = $('#auth_modal').find('form');
     $authForm.submit(function () {
         const email = $authForm.find('input[name="email"]').val();
@@ -26,7 +27,7 @@ $(window).on('load', function () {
                 if (idTokenResult.claims.admin || idTokenResult.claims.institution) {
                     $(location).attr("href", "gerencia/");
                 }
-                else { 
+                else {
                     auth.signOut();
                     alert("Erro de autenticação. Contate os responsáveis pelo sistema.");
                 }
